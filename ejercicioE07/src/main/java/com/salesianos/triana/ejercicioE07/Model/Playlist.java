@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter@Setter
 @NoArgsConstructor
@@ -21,6 +22,7 @@ public class Playlist {
     private String name;
     @Lob
     private String description;
+
 
 
 }
