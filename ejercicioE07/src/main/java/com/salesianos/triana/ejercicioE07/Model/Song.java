@@ -1,43 +1,54 @@
 package com.salesianos.triana.ejercicioE07.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class Song {
+@Entity @Builder
+public class Song implements Serializable {
 
-    @GeneratedValue
     @Id
+    @GeneratedValue
     private Long id;
 
-    private String title;
+    private String name;
 
-    private Artist artist;
-
-    private String album;
-
-    private String year;
-
+    private String description;
 
     @ManyToOne
-    private Song song;
+            @JoinColumn(name = "artist")
+    private Artist artist;
 
-    public void addArtist(Artist a) {
-        this.artist = a;
-        a.getSongs().add(this);
+    @ManyToMany(mappedBy = "songs")
+    private List<Playlist> playlists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "song", fetch = FetchType.EAGER)
+    private List<AddedTo> addedTos = new ArrayList<>();
+
+    public Song(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 
-    public void removeArtist(Artist a) {
-        a.getSongs().remove(this);
-        this.song = null;
+    public Song(String name, String description, Artist artist) {
+        this.name = name;
+        this.description = description;
+        this.artist = artist;
     }
 
+    //Helpers
+    public void addPlaylist(Playlist p){
+        playlists.add(p);
+        p.getSongs().add(this);
+    }
 
+    public void removePlaylist(Playlist p){
+        playlists.remove(p);
+        p.getSongs().remove(this);
+    }
 }

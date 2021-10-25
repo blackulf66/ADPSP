@@ -1,10 +1,6 @@
 package com.salesianos.triana.ejercicioE07.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +8,7 @@ import java.util.List;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity @Builder
 public class Artist {
 
     @GeneratedValue
@@ -21,7 +17,7 @@ public class Artist {
 
     private String name;
 
-   @OneToMany(mappedBy = "song")
-    private List<Song> songs = new ArrayList<>();
+   @OneToMany(mappedBy = "songs")
+    private List<Playlist> playlists = new ArrayList<>();
 
 }

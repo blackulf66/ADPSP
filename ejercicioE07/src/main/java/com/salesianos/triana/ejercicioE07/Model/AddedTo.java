@@ -1,31 +1,49 @@
 package com.salesianos.triana.ejercicioE07.Model;
 
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
-@Getter@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-
+@Entity @Builder
 public class AddedTo {
 
-    private LocalDate dateTime;
+    @ManyToOne
+    @JoinColumn(name = "playlist")
+    private Playlist playlist;
+
+    private DateTimeFormat datetime;
 
     private int order;
 
-    @OneToMany(mappedBy = "song")
-    private List<Song> songs = new ArrayList<>();
+    @EmbeddedId
+    private AddedToPK id = new AddedToPK();
+
+    @ManyToOne
+    @JoinColumn(name = "song")
+    private Song song;
+
+
+    public AddedTo(DateTimeFormat datetime, int order) {
+        this.datetime = datetime;
+        this.order = order;
+    }
+
+    public AddedTo(Song song, Playlist playlist, DateTimeFormat datetime, int order) {
+        this.song = song;
+        this.playlist = playlist;
+        this.datetime = datetime;
+        this.order = order;
+    }
+
+    public AddedTo(Song song, Playlist playlist) {
+        this.song = song;
+        this.playlist = playlist;
+    }
 }
-
-
