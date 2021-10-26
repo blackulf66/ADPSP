@@ -14,8 +14,8 @@ import java.io.Serializable;
 @Builder
 public class AddedToPK implements Serializable {
 
-    long songId;
+    long song_id;
 
-    long playlistId;
+    long playlist_id;
 
 }

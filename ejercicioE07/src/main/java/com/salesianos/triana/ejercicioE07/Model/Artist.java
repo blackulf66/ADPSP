@@ -2,6 +2,7 @@ package com.salesianos.triana.ejercicioE07.Model;
 
 import lombok.*;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity @Builder
-public class Artist {
+public class Artist implements Serializable {
 
     @GeneratedValue
     @Id
@@ -17,7 +18,7 @@ public class Artist {
 
     private String name;
 
-   @OneToMany(mappedBy = "songs")
-    private List<Playlist> playlists = new ArrayList<>();
+   @OneToMany(mappedBy = "artist")
+    private List<Song> songs = new ArrayList<>();
 
 }

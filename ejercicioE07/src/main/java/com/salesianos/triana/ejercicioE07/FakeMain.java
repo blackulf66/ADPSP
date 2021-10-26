@@ -1,6 +1,7 @@
 package com.salesianos.triana.ejercicioE07;
 
 
+import com.salesianos.triana.ejercicioE07.Model.AddedTo;
 import com.salesianos.triana.ejercicioE07.Model.Artist;
 import com.salesianos.triana.ejercicioE07.Model.Playlist;
 import com.salesianos.triana.ejercicioE07.Model.Song;
@@ -16,28 +17,47 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
 public class FakeMain {
+
 
     private final ArtistService artistService;
     private final SongService songService;
     private final PlaylistService playlistService;
     private final AddedToService addedToService;
 
+
     @PostConstruct
-    public void init(){
-        Artist artist = Artist.builder().name("Jorge tenorio").build();
-        artistService.save(artist);
+    public void init() {
+        Artist artist1 = Artist.builder().name("nombre1").build();
+        artistService.save(artist1);
 
-        Playlist playlist = Playlist.builder().title("el titulo").Album("el album").year("2000");
-        playlist.save(playlist);
+        Artist artist2 = Artist.builder().name("nombre2").build();
+        artistService.save(artist2);
 
-        Song song=Song.builder().name("la cancion del herrete").description("si").build();
-        SongService.save(song);
+        Song song1 = Song.builder().Album("song1").title("title1")
+                                  .year("2000").build();
+        song1.addArtist(artist1);
+        songService.save(song1);
+
+        Song song2 = Song.builder().Album("song2").title("title2")
+                .year("2000").build();
+        song1.addArtist(artist2);
+        songService.save(song2);
 
 
+        Playlist playlist = Playlist.builder().name("Playlist1")
+                                    .description("si").build();
+        playlistService.save(playlist);
+
+        AddedTo addedTo = AddedTo.builder().dateTime(LocalDateTime.now())
+                         .orden(1).build();
+        addedTo.addSongPlaylist(song1,playlist);
+        addedTo.addSongPlaylist(song2,playlist);
+        addedToService.save(addedTo);
 
 
 

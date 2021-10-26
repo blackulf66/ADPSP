@@ -16,24 +16,13 @@ public class Playlist implements Serializable {
     @GeneratedValue
     private Long id;
 
-    private String title;
+    private String name;
 
-    private String Album;
-
-    private String year;
-
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Song> songs = new ArrayList<>();
+    private String description;
 
     @OneToMany(mappedBy = "playlist", fetch = FetchType.EAGER)
     private List<AddedTo> addedTos = new ArrayList<>();
 
-    public Playlist(String title, String album, String year) {
-        this.title = title;
-        Album = album;
-        this.year = year;
-    }
 
 
 }
