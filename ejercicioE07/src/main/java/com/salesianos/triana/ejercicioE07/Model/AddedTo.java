@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Entity
 @NoArgsConstructor @AllArgsConstructor @Builder
@@ -34,6 +35,7 @@ public class AddedTo {
     public void addSong(Song s){
         song = s;
         s.getAddedTos().add(this);
+
     }
     public void removeSong(Song s){
         song = s;

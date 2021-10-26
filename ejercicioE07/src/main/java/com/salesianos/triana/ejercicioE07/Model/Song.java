@@ -32,7 +32,12 @@ public class Song implements Serializable {
 
     public void addArtist(Artist a) {
         artist = a;
+        if(a.getSongs()==null){
+            a.setSongs(new ArrayList<>());
             a.getSongs().add(this);
+            }else{
+            a.getSongs().add(this);
+            }
         }
 
     public void removeArtist(Artist a) {

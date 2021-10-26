@@ -10,7 +10,6 @@ import java.io.Serializable;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Builder
 public class AddedToPK implements Serializable {
 
