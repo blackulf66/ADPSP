@@ -16,20 +16,18 @@ public class AddedTo {
     private AddedToPK id = new AddedToPK();
 
     @ManyToOne
-    @MapsId("song_id")
-    @JoinColumn(name="song_id")
+    @MapsId("songId")
+    @JoinColumn(name="songId")
     private Song song;
 
     @ManyToOne
-    @MapsId("playlist_id")
-    @JoinColumn(name="playlist_id")
+    @MapsId("playlistId")
+    @JoinColumn(name="playlistId")
     private Playlist playlist;
 
     private LocalDateTime dateTime;
 
     private int orden;
-
-
 
     //Helpers
 

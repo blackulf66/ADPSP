@@ -30,7 +30,6 @@ public class Song implements Serializable {
     @OneToMany(mappedBy = "song", fetch = FetchType.EAGER)
     private List<AddedTo> addedTos = new ArrayList<>();
 
-
     public void addArtist(Artist a) {
         artist = a;
             a.getSongs().add(this);
