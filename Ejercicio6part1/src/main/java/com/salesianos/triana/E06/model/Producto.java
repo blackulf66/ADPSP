@@ -21,6 +21,7 @@ public class Producto {
     @ManyToOne
     @JoinColumn(name = "categoria", foreignKey = @ForeignKey(name = "FK_PRODUCTO_CATEGORIA"))
     private Categoria categoria;
+
     //Metodos Helpers de Categoria
 
     public void addCategoria(Categoria c){

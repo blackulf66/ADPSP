@@ -35,7 +35,6 @@ public class AddedTo {
     public void addSong(Song s){
         song = s;
         s.getAddedTos().add(this);
-
     }
     public void removeSong(Song s){
         song = s;
