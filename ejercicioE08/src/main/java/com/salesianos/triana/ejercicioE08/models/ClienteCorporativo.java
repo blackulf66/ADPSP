@@ -3,6 +3,7 @@ package com.salesianos.triana.ejercicioE08.models;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
+
 public class ClienteCorporativo extends Cliente {
 
     private String nombreEmpresa;
@@ -35,7 +37,7 @@ public class ClienteCorporativo extends Cliente {
     }
 
     public void removeEmpleado(Empleado e) {
-        empleado = null;
         e.getClientesCorporativos().remove(this);
+        empleado = null;
     }
 }

@@ -27,7 +27,7 @@ public class Empleado {
     private double sueldo;
 
     private String cargo;
-
+    @Builder.Default
     @OneToMany(mappedBy = "empleado")
     private List<ClienteCorporativo> clientesCorporativos = new ArrayList<>();
 

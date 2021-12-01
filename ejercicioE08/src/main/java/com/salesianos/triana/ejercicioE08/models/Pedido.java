@@ -28,7 +28,6 @@ public class Pedido {
     @JoinColumn(name = "cliente")
     private Cliente cliente;
 
-
     //helper
 
     public void addCliente(Cliente cl) {
@@ -40,8 +39,9 @@ public class Pedido {
     }
 
     public void removeCliente(Cliente cl) {
-        cliente = null;
         cl.getPedidos().remove(this);
+        cliente = null;
+
     }
 }
 
