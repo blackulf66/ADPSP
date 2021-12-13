@@ -20,18 +20,15 @@ public class MiDefaultErrorAttributes extends DefaultErrorAttributes {
         Map<String,Object> result =  Map.of(
                 "estado",errorAttributes.get("status"),
                 "codigo", HttpStatus.valueOf((int) errorAttributes.get("status")).name(),
-                "fecha", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss")),
+                "fecha", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
                 "ruta", errorAttributes.get("path")
         );
-
         if (errorAttributes.containsKey("message")) {
             result.put("mensaje", errorAttributes.get("message"));
         }
-
         if (errorAttributes.containsKey("errors")) {
             result.put("subErrores", errorAttributes.get("errors"));
         }
-
         return result;
     }
 }
