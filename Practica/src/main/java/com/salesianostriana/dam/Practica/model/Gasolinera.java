@@ -26,7 +26,7 @@ public class Gasolinera {
 
     @NotBlank(message = "{producto.nombre.blank}")
     private String nombre;
-
+    @NotNull
     private String marca;
     @Lob
     private String ubicacion;

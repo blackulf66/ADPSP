@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.Practica.service;
 
+import com.salesianostriana.dam.Practica.errores.excepciones.EntityNotFoundException;
 import com.salesianostriana.dam.Practica.errores.excepciones.ListEntityNotFoundException;
 import com.salesianostriana.dam.Practica.errores.excepciones.SingleEntityNotFoundException;
 import com.salesianostriana.dam.Practica.model.Gasolinera;
@@ -29,8 +30,12 @@ public class GasolineraService {
         return gasolineraRepository.save(gasgas);
     }
 
-    public Gasolinera delete(Long id){
-        return gasolineraRepository;
+    public void deleteById(Long id) {
+        if (gasolineraRepository.findById(id).isEmpty()) {
+            throw new EntityNotFoundException(id);
+        } else {
+            gasolineraRepository.deleteById(id);
+        }
     }
 
 }
