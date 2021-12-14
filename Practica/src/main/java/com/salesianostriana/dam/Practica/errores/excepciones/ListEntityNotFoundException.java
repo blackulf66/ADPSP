@@ -1,8 +1,10 @@
 package com.salesianostriana.dam.Practica.errores.excepciones;
 
-public class ListEntityNotFoundException extends EntityNotFoundException{
+import javax.persistence.EntityNotFoundException;
 
-    public ListEntityNotFoundException(Class clazz) {
-        super(String.format("No se pueden encontrar elementos del tipo %s ", clazz.getName()));
+public class ListEntityNotFoundException extends EntityNotFoundException {
+
+    public ListEntityNotFoundException (Class clase){
+        super(String.format("No se puede encontrar la lista de %s",clase.getName()));
     }
 }
