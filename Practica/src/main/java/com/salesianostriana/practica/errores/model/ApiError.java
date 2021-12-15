@@ -8,17 +8,14 @@ import org.springframework.http.HttpStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter @Setter
+@Data
 @NoArgsConstructor @AllArgsConstructor
 @Builder
 public class ApiError {
 
-    private HttpStatus status;
-
+    private HttpStatus estado;
     private int codigo;
-
     private String mensaje;
-
     private String ruta;
 
     @Builder.Default
@@ -26,17 +23,18 @@ public class ApiError {
     private LocalDateTime fecha = LocalDateTime.now();
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<ApiSubError> subErrors;
+    private List<ApiSubError> subErrores;
 
-    public ApiError(HttpStatus status, String mensaje, String ruta, List<ApiSubError> subErrors) {
-        this.status = status;
+    public ApiError(HttpStatus estado, String mensaje, String ruta) {
+        this.estado = estado;
+        this.codigo = estado.value();
         this.mensaje = mensaje;
+        this.fecha = LocalDateTime.now();
         this.ruta = ruta;
-        this.subErrors = subErrors;
     }
 
-    public ApiError(HttpStatus notFound, String message) {
-        this.status = notFound;
-        this.mensaje = message;
+    public ApiError(HttpStatus estado, String mensaje, String ruta, List<ApiSubError> subErrores) {
+        this(estado, mensaje, ruta);
+        this.subErrores = subErrores;
     }
 }

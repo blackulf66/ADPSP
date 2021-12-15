@@ -17,20 +17,19 @@ public class GasolineraService {
     private final GasolineraRepository gasolineraRepository;
 
     public List<Gasolinera> findAll() {
-        List<Gasolinera> result= gasolineraRepository.findAll();
+        List<Gasolinera> result = gasolineraRepository.findAll();
         if (result.isEmpty()) {
             throw new ListEntityNotFoundException(Gasolinera.class);
-        }
-        else {
+        } else {
             return result;
         }
     }
 
     public Optional<Gasolinera> findById(Long id) {
-        Optional<Gasolinera> result= gasolineraRepository.findById(id);
-        if (result.isEmpty()){
+        Optional<Gasolinera> result = gasolineraRepository.findById(id);
+        if (result.isEmpty()) {
             throw new EntityNotFoundException(id);
-        }else{
+        } else {
             return result;
         }
     }
@@ -44,12 +43,11 @@ public class GasolineraService {
         return gasolineraRepository.save(estacionDeServicio);
     }
 
-    public Optional<Gasolinera> deleteById(Long id) {
-        Optional<Gasolinera> result= gasolineraRepository.findById(id);
-        if (result.isEmpty()) {
+    public void deleteById(Long id) {
+        if (gasolineraRepository.findById(id).isEmpty()) {
             throw new EntityNotFoundException(id);
         } else {
-            return result;
+            gasolineraRepository.deleteById(id);
         }
     }
 }

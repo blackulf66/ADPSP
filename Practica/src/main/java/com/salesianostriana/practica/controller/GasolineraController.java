@@ -28,13 +28,13 @@ public class GasolineraController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<GetGasolineraDto> findOne(@PathVariable Long id){
-        return ResponseEntity.ok().body(gasolineraDtoConverter.EstacionToGetEstacionDto(gasolineraService.findById(id).get()));
+        return ResponseEntity.ok().body(gasolineraDtoConverter.GasolineraToGetGasolineraDto(gasolineraService.findById(id).get()));
     }
     @PostMapping("/")
     public ResponseEntity<GetGasolineraDto> save(@Valid @RequestBody CreateGasolineraDto c){
-        Gasolinera estacion = gasolineraDtoConverter.createEstacionDtoToEstacion(c);
+        Gasolinera estacion = gasolineraDtoConverter.createGasolineraDtoToGasolinera(c);
         gasolineraService.save(estacion);
-        GetGasolineraDto estacionDto = gasolineraDtoConverter.EstacionToGetEstacionDto(estacion);
+        GetGasolineraDto estacionDto = gasolineraDtoConverter.GasolineraToGetGasolineraDto(estacion);
         return ResponseEntity.status(HttpStatus.CREATED).body(estacionDto);
     }
     @DeleteMapping("/{id}")
@@ -46,10 +46,10 @@ public class GasolineraController {
     public ResponseEntity<Optional<GetGasolineraDto>> edit(@PathVariable Long id, @Valid @RequestBody CreateGasolineraDto c) {
         return ResponseEntity.ok().body(gasolineraService.findById(id).map(e ->
         {e.setId(id);
-            e.setMarca(c.getMarca());
             e.setNombre(c.getNombre());
-            e.setUbicacion(c.getUbicacion());
+            e.setMarca(c.getMarca());
             e.setTieneAutolavado(c.isTieneAutolavado());
+            e.setUbicacion(c.getUbicacion());
             e.setPrecioGasoilNormal(c.getPrecioGasoilNormal());
             e.setPrecioGasoilEspecial(c.getPrecioGasoilEspecial());
             e.setPrecioGasolina98(c.getPrecioGasolina98());
@@ -57,7 +57,7 @@ public class GasolineraController {
             e.setServicios(c.getServicios());
             e.setFechaApertura(c.getFechaApertura());
             gasolineraService.save(e);
-            GetGasolineraDto dto = gasolineraDtoConverter.EstacionToGetEstacionDto(e);
+            GetGasolineraDto dto = gasolineraDtoConverter.GasolineraToGetGasolineraDto(e);
                 return dto;
         }));
         }

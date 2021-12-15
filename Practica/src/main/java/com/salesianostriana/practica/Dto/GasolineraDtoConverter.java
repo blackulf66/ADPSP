@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Component
 public class GasolineraDtoConverter {
 
-    public Gasolinera createEstacionDtoToEstacion(CreateGasolineraDto c){
+    public Gasolinera createGasolineraDtoToGasolinera(CreateGasolineraDto c){
         return Gasolinera.builder()
                 .id(c.getId())
                 .nombre(c.getNombre())
@@ -23,7 +23,7 @@ public class GasolineraDtoConverter {
                 .servicios(c.getServicios())
                 .build();
     }
-    public GetGasolineraDto EstacionToGetEstacionDto(Gasolinera g){
+    public GetGasolineraDto GasolineraToGetGasolineraDto(Gasolinera g){
         return GetGasolineraDto.builder()
                 .id(g.getId())
                 .nombre(g.getNombre())

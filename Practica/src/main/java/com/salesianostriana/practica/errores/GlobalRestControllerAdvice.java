@@ -4,7 +4,7 @@ import com.salesianostriana.practica.errores.excepciones.EntityNotFoundException
 import com.salesianostriana.practica.errores.excepciones.ListEntityNotFoundException;
 import com.salesianostriana.practica.errores.model.ApiError;
 import com.salesianostriana.practica.errores.model.ApiSubError;
-import com.salesianostriana.practica.errores.model.ValidationError;
+import com.salesianostriana.practica.errores.model.ApiValidationSubError;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,84 +26,83 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler {
 
+    @ExceptionHandler({EntityNotFoundException.class})
+    public ResponseEntity<?> handleNotFoundException(EntityNotFoundException ex, WebRequest request) {
+        return buildApiError404(ex, request);
+    }
+    
+    @ExceptionHandler({ListEntityNotFoundException.class})
+    public ResponseEntity<?> handleNotFoundException(ListEntityNotFoundException ex, WebRequest request) {
+        return buildApiError404(ex, request);
+    }
+
     @ExceptionHandler({ConstraintViolationException.class})
-    public ResponseEntity<?> handleConstraintViolationException (ConstraintViolationException ex, WebRequest request){
-        return buildApiError(HttpStatus.BAD_REQUEST,ex,request,
-                ex.getConstraintViolations().stream().map(error ->
-                ValidationError.builder()
-                        .objeto(error.getRootBeanClass().getSimpleName())
-                        .campo(((PathImpl)error.getPropertyPath()).getLeafNode().asString())
-                        .ValorRechazado(error.getInvalidValue())
-                        .mensaje(error.getMessage())
-                        .build()).collect(Collectors.toList())
+    public ResponseEntity<?> handleConstrintViolationException(ConstraintViolationException ex, WebRequest request) {
+        return buildApiErrorWithSubError(HttpStatus.BAD_REQUEST,
+                "Errores varios en la validación",
+                request,
+                ex.getConstraintViolations()
+                        .stream()
+                        .map(cv ->ApiValidationSubError.builder()
+                                .objeto(cv.getRootBeanClass().getSimpleName())
+                                .campo(((PathImpl)cv.getPropertyPath()).getLeafNode().asString())
+                                .ValorRechazado(cv.getInvalidValue())
+                                .mensaje(cv.getMessage())
+                                .build())
+                        .collect(Collectors.toList())
         );
     }
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        List<ApiSubError> subErrorList = new ArrayList<>();
 
+        List<ApiSubError> subErrorList = new ArrayList<>();
         ex.getAllErrors().forEach(error -> {
-            if(error instanceof FieldError){
+            if (error instanceof FieldError) {
                 FieldError fieldError = (FieldError) error;
 
-                subErrorList.add(ValidationError.builder()
+                subErrorList.add(
+                        ApiValidationSubError.builder()
                                 .objeto(fieldError.getObjectName())
                                 .campo(fieldError.getField())
-                                .mensaje(fieldError.getDefaultMessage())
                                 .ValorRechazado(fieldError.getRejectedValue())
-                        .build());
+                                .mensaje(fieldError.getDefaultMessage())
+                                .build()
+                );
             }
-            else{
-                ObjectError objectError = error;
-
-                subErrorList.add(ValidationError.builder()
+            else
+            {
+                ObjectError objectError = (ObjectError) error;
+                subErrorList.add(
+                        ApiValidationSubError.builder()
                                 .objeto(objectError.getObjectName())
                                 .mensaje(objectError.getDefaultMessage())
-                        .build());
+                                .build()
+                );
             }
+
         });
-
-        return buildApiError(HttpStatus.BAD_REQUEST,ex,request,subErrorList.isEmpty() ? null : subErrorList);
+        return buildApiErrorWithSubError(HttpStatus.BAD_REQUEST, "Errores varios en la validación",
+                request, subErrorList.isEmpty() ? null : subErrorList
+        );
     }
-
-    private ResponseEntity<Object> buildApiError( HttpStatus status, Exception ex, WebRequest request, List<ApiSubError> subErrors){
-        return ResponseEntity.status(status)
-                .body(new ApiError(status, ex.getMessage(),((ServletWebRequest) request).getRequest().getRequestURI(),subErrors));
-    }
-    private ResponseEntity<Object> buildApiError(Exception ex, WebRequest request){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiError(HttpStatus.NOT_FOUND, ex.getMessage()));
-    }
-
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ApiError apiError = ApiError.builder()
+        return buildApiErrorStatus(status, ex, request);
+    }
+
+    private ResponseEntity<Object> buildApiError404(Exception ex, WebRequest request) {
+        return buildApiErrorStatus(HttpStatus.NOT_FOUND, ex, request);
+    }
+
+    private ResponseEntity<Object> buildApiErrorStatus(HttpStatus status, Exception ex, WebRequest request) {
+        return ResponseEntity
                 .status(status)
-                .codigo(status.value())
-                .ruta(((ServletWebRequest) request).getRequest().getRequestURI())
-                .mensaje(ex.getMessage())
-                .build();
-        return ResponseEntity.status(status).body(apiError);
+                .body(new ApiError(status, ex.getMessage(), ((ServletWebRequest) request).getRequest().getRequestURI()));
     }
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ApiError> handleEstacionNotFound (EntityNotFoundException ex){
-        ApiError apiError = ApiError.builder()
-                .mensaje(ex.getMessage())
-                .status(HttpStatus.NOT_FOUND)
-                .codigo(HttpStatus.NOT_FOUND.value())
-                .fecha(LocalDateTime.now())
-                .build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
+    private ResponseEntity<Object> buildApiErrorWithSubError(HttpStatus estado, String mensaje, WebRequest request, List<ApiSubError> subErrores) {
+        return ResponseEntity
+                .status(estado)
+                .body(new ApiError(estado, mensaje, ((ServletWebRequest) request).getRequest().getRequestURI(), subErrores));
     }
-    @ExceptionHandler(ListEntityNotFoundException.class)
-    public ResponseEntity<?> handleNotFoundException(ListEntityNotFoundException ex){
-        ApiError apiError = ApiError.builder()
-                .mensaje(ex.getMessage())
-                .status(HttpStatus.NOT_FOUND)
-                .codigo(HttpStatus.NOT_FOUND.value())
-                .fecha(LocalDateTime.now())
-                .build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
-    }
+
 }
