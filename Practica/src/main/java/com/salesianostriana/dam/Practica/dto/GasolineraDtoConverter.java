@@ -20,11 +20,8 @@ public class GasolineraDtoConverter {
                 c.getFechaApertura()
         );
     }
-
-
     public static GetGasolineraDto gasolineraToGetGasolineraDto(Gasolinera g) {
-        return GetGasolineraDto
-                .builder()
+        return GetGasolineraDto.builder()
                 .id(g.getId())
                 .nombre(g.getNombre())
                 .marca(g.getMarca())

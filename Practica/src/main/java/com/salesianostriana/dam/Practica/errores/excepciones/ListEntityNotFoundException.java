@@ -1,6 +1,5 @@
 package com.salesianostriana.dam.Practica.errores.excepciones;
 
-import javax.persistence.EntityNotFoundException;
 
 public class ListEntityNotFoundException extends EntityNotFoundException {
 
