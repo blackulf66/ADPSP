@@ -1,19 +1,23 @@
 package com.salesianostriana.practica.validacion.anotaciones;
 
-import com.salesianostriana.practica.validacion.validadores.UniqueUbicacionValidator;
+import com.salesianostriana.practica.validacion.validadores.AnotacionDateValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-@Target({ElementType.METHOD, ElementType.FIELD})
-@Constraint(validatedBy = UniqueUbicacionValidator.class)
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = AnotacionDateValidator.class)
 @Documented
-public @interface UniqueUbicacion {
+public @interface AnotacionDate {
 
-    String message() default "No puede haber 2 ubicaciones iguales";
-
+    String message() default "NO";
     Class <?> [] groups() default {};
     Class <? extends Payload> [] payload() default {};
+
+    String fechaApertura();
+    String fechaRegistro();
 }
+
+

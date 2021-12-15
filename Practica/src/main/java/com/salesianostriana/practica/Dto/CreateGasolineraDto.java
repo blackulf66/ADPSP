@@ -1,6 +1,6 @@
 package com.salesianostriana.practica.Dto;
 
-import com.salesianostriana.practica.validacion.anotaciones.UniqueUbicacion;
+import com.salesianostriana.practica.validacion.anotaciones.Ubicacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,8 +21,8 @@ public class CreateGasolineraDto {
     private String marca;
 
     @NotBlank(message = "{gasolinera.ubicacion.blank}")
-    @UniqueUbicacion
-    @Pattern(regexp = "^([-+]?\\d{1,2}[.]\\d+),\\s*([-+]?\\d{1,3}[.]\\d+)$", message = "{gasolinera.ubicacion.pattern}")
+    @Ubicacion
+    @Pattern(regexp = "^([-+]?\\d{1,2}[.]\\d+),\\s*([-+]?\\d{1,3}[.]\\d+)$", message = "{gasolinera.ubicacion}")
     private String ubicacion;
 
     private boolean tieneAutolavado = false;
@@ -40,4 +40,6 @@ public class CreateGasolineraDto {
 
     @Past
     private LocalDateTime fechaApertura;
+
+    private LocalDateTime fechaRegistro;
 }

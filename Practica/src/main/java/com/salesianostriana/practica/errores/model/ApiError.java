@@ -28,14 +28,6 @@ public class ApiError {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ApiSubError> subErrors;
 
-    public ApiError(HttpStatus status, int codigo, String mensaje, String ruta, LocalDateTime fecha) {
-        this.status = status;
-        this.codigo = codigo;
-        this.mensaje = mensaje;
-        this.ruta = ruta;
-        this.fecha = fecha;
-    }
-
     public ApiError(HttpStatus status, String mensaje, String ruta, List<ApiSubError> subErrors) {
         this.status = status;
         this.mensaje = mensaje;

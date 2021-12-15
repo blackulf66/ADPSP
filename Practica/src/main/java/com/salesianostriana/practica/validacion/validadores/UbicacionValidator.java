@@ -1,7 +1,7 @@
 package com.salesianostriana.practica.validacion.validadores;
 
 import com.salesianostriana.practica.repository.GasolineraRepository;
-import com.salesianostriana.practica.validacion.anotaciones.UniqueUbicacion;
+import com.salesianostriana.practica.validacion.anotaciones.Ubicacion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 
@@ -9,12 +9,12 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @RequiredArgsConstructor
-public class UniqueUbicacionValidator implements ConstraintValidator<UniqueUbicacion, String> {
+public class UbicacionValidator implements ConstraintValidator<Ubicacion, String> {
 
     private final GasolineraRepository estacionServicioRepository;
 
     @Override
-    public void initialize(UniqueUbicacion constraintAnnotation) {
+    public void initialize(Ubicacion constraintAnnotation) {
     }
 
     @Override
