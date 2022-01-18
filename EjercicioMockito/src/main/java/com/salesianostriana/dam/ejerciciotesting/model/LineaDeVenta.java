@@ -14,4 +14,6 @@ public class LineaDeVenta {
     private Producto producto;
     private int cantidad;
     private double pvp; // precio unitario
+
+
 }
