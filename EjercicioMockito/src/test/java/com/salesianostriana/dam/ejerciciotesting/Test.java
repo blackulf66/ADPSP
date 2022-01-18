@@ -33,6 +33,7 @@ public class Test {
 
     @org.junit.jupiter.api.Test
     void test1nuevaVenta() {
+        //caja negra
         Cliente cli = new Cliente();
         LineaDeVenta linea = new LineaDeVenta(new Producto("3","Teclado mecánico retroiluminado",59.99) ,1 , 59.99);
         List<LineaDeVenta> lista = new ArrayList<>(); lista.add(linea);
@@ -44,6 +45,7 @@ public class Test {
     }
     @org.junit.jupiter.api.Test
     void test2addProductoToVenta(){
+        //caja blanca
         Cliente cli= new Cliente();
         LineaDeVenta linea = new LineaDeVenta(new Producto("3","Teclado mecánico retroiluminado",59.99) ,1 , 59.99);
         LineaDeVenta linea2 = new LineaDeVenta(new Producto("2","Ordenador de sobremesa",499.0) ,1 , 499.0);
@@ -63,6 +65,7 @@ public class Test {
 
     @org.junit.jupiter.api.Test
     void test3removeLineaVenta(){
+        //caja blanca
         Cliente cli= new Cliente();
         LineaDeVenta linea = new LineaDeVenta(new Producto("3","Teclado mecánico retroiluminado",59.99) ,1 , 59.99);
         LineaDeVenta linea2 = new LineaDeVenta(new Producto("3","Teclado mecánico retroiluminado",59.99) ,1 , 59.99);
