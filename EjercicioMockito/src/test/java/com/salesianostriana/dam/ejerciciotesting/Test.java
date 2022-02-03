@@ -43,6 +43,8 @@ public class Test {
         Venta venta2 = ventaServicio.nuevaVenta(Map.of("3", 4),cli);
         assertEquals(venta.getId() , venta2.getId());
     }
+
+
     @org.junit.jupiter.api.Test
     void test2addProductoToVenta(){
         //caja blanca
@@ -62,6 +64,7 @@ public class Test {
         assertEquals(venta,vent);
         assertEquals(venta,vent2);
     }
+
 
     @org.junit.jupiter.api.Test
     void test3removeLineaVenta(){
